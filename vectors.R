@@ -148,3 +148,4 @@ checkVectOrthogonal(v4, w4)
 # [1] TRUE
 
 
+
