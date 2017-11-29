@@ -103,3 +103,48 @@ radToDeg(findTheta(v4,w4))
 #*******************************************
 #Parallel And Orthogonal Vectors
 #*******************************************
+v1 <- c(-7.579, -7.88)
+w1 <- c(22.737, 23.64)
+v2 <- c(-2.029, 9.97, 4.172)
+w2 <- c(-9.231, 6.639, -7.245)
+v3<- c(-2.238, -7.284, -1.214)
+w3 <- c(-1.821, 1.072, -2.94)
+v4<- c(2.118, 4.827)
+w4 <- c(0,0)
+
+#check if vectors are parallel -> abs(unitVector) should be the same
+#                             OR
+#                              -> angle between the 0 or 180 deg / 0 or (pi) rad
+##                                findTheta(v1,w1) == (pi)
+##                                [1] TRUE
+checkVectParallel <- function (x, y) {
+#with 3 decimal precision
+  ifelse(calcMagnitude(x) == 0 || calcMagnitude(y) == 0, TRUE, all(round(abs(normalizeVect(x))) == round(abs(normalizeVect(y)))))
+}
+checkVectParallel(v1, w1)
+# [1] TRUE
+
+checkVectParallel(v2, w2)
+# [1] FALSE
+
+checkVectParallel(v3, w3)
+# [1] FALSE
+
+checkVectParallel(v4, w4)
+# [1] TRUE
+
+##check if orthogonal -> dot product should be 0
+checkVectOrthogonal <- function (x, y) {
+  #won't work without rounding
+  sum(round(x)*round(y)) == 0
+}
+checkVectOrthogonal(v1, w1)
+# [1] FALSE
+checkVectOrthogonal(v2, w2)
+# [1] FALSE
+checkVectOrthogonal(v3, w3)
+# [1] TRUE
+checkVectOrthogonal(v4, w4)
+# [1] TRUE
+
+
