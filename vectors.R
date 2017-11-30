@@ -136,7 +136,7 @@ checkVectParallel(v4, w4)
 ##check if orthogonal -> dot product should be 0
 checkVectOrthogonal <- function (x, y) {
   #won't work without rounding
-  sum(round(x)*round(y)) == 0
+  round(sum((x)*(y))) == 0
 }
 checkVectOrthogonal(v1, w1)
 # [1] FALSE
@@ -147,5 +147,86 @@ checkVectOrthogonal(v3, w3)
 checkVectOrthogonal(v4, w4)
 # [1] TRUE
 
+rm(v1,v2,v3,v4,w1,w2,w3,w4)
+
+#*******************************************
+#Vector Projections
+#*******************************************
+
+#Quiz
+v1 <- c(3.039, 1.879)
+b1 <- c(0.825, 2.036)
+v2 <- c(-9.88, -3.264, -8.159)
+b2 <- c(-2.155, -9.353, -9.473)
+v3 <- c(3.009, -6.172, 3.692, -2.51)
+b3 <- c(6.404, -9.144, 2.759, 8.718)
+
+#projection of v on b (v par)
+#v perp
+findProjection <- function(v,b) {
+  unitVectBase <- normalizeVect(b)
+  dotProd <- sum(v*unitVectBase)
+  projection <- dotProd*unitVectBase
+  projection
+}
+
+findPerp <- function(v, b) {
+  vPerp <- v - findProjection(v,b)
+  vPerp
+}
+
+findProjection(v1, b1)
+# [1] 1.082607 2.671743
+
+findPerp(v2, b2)
+# [1] -8.350081  3.376061 -1.433746
+
+findProjection(v3, b3)
+# [1]  1.968516 -2.810761  0.848085  2.679813
+findPerp(v3,b3)
+# [1]  1.040484 -3.361239  2.843915 -5.189813
+
+rm(v1,v2,v3,b1,b2,b3)
+#*******************************************
+#Cross Products
+#*******************************************
+
+#Quiz
+#3 dimensional vectors
+#cross product
+#area of parallelogram
+#area of triangle
+
+v1 <- c(8.462, 7.893, -8.187)
+w1 <- c(6.984, -5.975, 4.778)
+v2 <- c(-8.987, -9.838, 5.031)
+w2 <- c(-4.268, -1.861, -8.866)
+v3<- c(1.5, 9.547, 3.691)
+w3<- c(-6.007, 0.124, 5.772)
+
+findCrossProd <- function(v, w) {
+  crossProd <- c(v[[2]]*w[[3]] - w[[2]]*v[[3]], -(v[[1]]*w[[3]] - w[[1]]*v[[3]]), v[[1]]*w[[2]]-w[[1]]*v[[2]])
+  crossProd
+}
+
+crossProd1 <- findCrossProd(v1, w1)
+crossProd1 
+# [1]  -11.20457  -97.60944 -105.68516
+checkVectOrthogonal(w1, crossProd1)
+# [1] TRUE ##when rounding sum prod
 
 
+findParallelogram <- function (v, w) {
+  sqCrossProd <- findCrossProd(v,w)^2
+  sumSqCrossProd <- sum(sqCrossProd)
+  lengthCrossProd <- sqrt(sumSqCrossProd)
+  lengthCrossProd
+}
+findParallelogram(v2, w2)
+# [1] 142.1222
+## OR - sanity check
+calcMagnitude(findCrossProd(v2, w2))
+# [1] 142.1222 ##same
+
+findParallelogram(v3, w3)*0.5
+# [1] 42.56494 ##triangle area
